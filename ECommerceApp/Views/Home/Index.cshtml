@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    #home {
+        display: flex;
+        flex-direction: column;
+        padding: 3px 200px;
+        height: 550px;
+        justify-content: center;
+        align-items: center;
+    }
+        #home::before {
+            content: "";
+            position: absolute;
+            background: url(/Assets/img/w6.jpg) no-repeat center fixed;
+            height: 752px;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            z-index: -1;
+            opacity: 0.99;
+        }
+</style>
+<section id="home">
+    <h1 class="h-primary">Welcome to EComm!</h1>
+    <p> <b>Order food from favourite FoodBuddy Outlets near you.</b> </p>
+    <p><b> Now available in popular cities in India</b></p>
+    <p><b> Ahmedabad, Bangalore, Chennai, Delhi, Gurgaon, Hyderabad, Kolkata, Mumbai, Pune & more.</b> </p>
+    @Html.ActionLink("Shop By Category", "Index", "Category", new { aria = "" }, new {@type="button", @class = "btn btn-danger" })
+</section>
