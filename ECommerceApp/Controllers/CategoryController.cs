@@ -1,4 +1,5 @@
-﻿using ECommerce.BusinessObjects;
+﻿using ECommerce.BusinessLogic;
+using ECommerce.BusinessObjects;
 using ECommerce.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,14 @@ namespace ECommerceApp.Controllers
     [Authorize]
     public class CategoryController : Controller
     {
-        CategoryContext categoryContext=new CategoryContext();
+        CategoryBAL categoryContext=new CategoryBAL();
         
 
         // GET: Category
         [HttpGet]
         public ActionResult Index()
         {
-            List<Category> list = categoryContext.GetCategories();
+            List<Category> list = categoryContext.Get();
              
             return View(list);
         }
@@ -34,7 +35,7 @@ namespace ECommerceApp.Controllers
                 if (ModelState.IsValid == true)
                 {
                     
-                    int check = categoryContext.AddCategory(category);
+                    int check = categoryContext.Add(category);
                     if (check>=0)
                     {
                         TempData["InsertMessage"] = " Data has been inserted successully";
@@ -54,7 +55,7 @@ namespace ECommerceApp.Controllers
         public ActionResult Edit(int id)
         {
           
-            var row = categoryContext.GetCategories().Find(model => model.Id == id);
+            var row = categoryContext.Get().Find(model => model.Id == id);
             return View(row);
         }
 
@@ -66,7 +67,7 @@ namespace ECommerceApp.Controllers
                 if (ModelState.IsValid == true)
                 {
                     
-                    int check = categoryContext.UpdateCategory(cat);
+                    int check = categoryContext.Update(cat);
                     if (check >= 0)
                     {
                         TempData["UpdateMessage"] = " Data has been Updated successully";
@@ -87,7 +88,7 @@ namespace ECommerceApp.Controllers
         public ActionResult Delete(int id)
         {
             
-            var row = categoryContext.GetCategories().Find(model => model.Id == id);
+            var row = categoryContext.Get().Find(model => model.Id == id);
             return View(row);
         }
 
@@ -98,7 +99,7 @@ namespace ECommerceApp.Controllers
             {
 
                 
-                int check = categoryContext.DeleteCategory(id);
+                int check = categoryContext.Delete(id);
                 if (check>=0)
                 {
                     TempData["DeleteMessage"] = " Data has been Delete successully";
@@ -118,7 +119,7 @@ namespace ECommerceApp.Controllers
         public ActionResult Details(int id)
         {
             
-            var row = categoryContext.GetCategories().Find(model => model.Id == id);
+            var row = categoryContext.Get().Find(model => model.Id == id);
             return View(row);
         }
         [HandleError]
@@ -126,8 +127,8 @@ namespace ECommerceApp.Controllers
         {
             try
             {
-                ItemContext cat = new ItemContext();
-                List<Item> row = cat.GetItemsByCategory(ct.Name);
+                ItemBAL cat = new ItemBAL();
+                List<Item> row = cat.GetByCategory(ct.Name);
 
                 return View(row);
             }

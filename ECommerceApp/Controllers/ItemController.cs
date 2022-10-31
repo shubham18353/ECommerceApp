@@ -1,4 +1,5 @@
-﻿using ECommerce.BusinessObjects;
+﻿using ECommerce.BusinessLogic;
+using ECommerce.BusinessObjects;
 using ECommerce.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,14 @@ namespace ECommerceApp.Controllers
     [Authorize]
     public class ItemController : Controller
     {
-        ItemContext itemContext=new ItemContext();
+        ItemBAL itemContext=new ItemBAL();
 
 
             // GET: Item
             [HttpGet]
             public ActionResult Index()
             {
-                List<Item> list = itemContext.GetItems();
+                List<Item> list = itemContext.Get();
 
                 return View(list);
             }
@@ -34,7 +35,7 @@ namespace ECommerceApp.Controllers
                     if (ModelState.IsValid == true)
                     {
 
-                        int check = itemContext.AddItems(item);
+                        int check = itemContext.Add(item);
                         if (check >= 0)
                         {
                             TempData["InsertMessage"] = " Data has been inserted successully";
@@ -54,7 +55,7 @@ namespace ECommerceApp.Controllers
             public ActionResult Edit(int id)
             {
 
-                var row = itemContext.GetItems().Find(model => model.Id == id);
+                var row = itemContext.Get().Find(model => model.Id == id);
                 return View(row);
             }
 
@@ -66,7 +67,7 @@ namespace ECommerceApp.Controllers
                     if (ModelState.IsValid == true)
                     {
 
-                        int check = itemContext.UpdateItem(item);
+                        int check = itemContext.Update(item);
                         if (check >= 0)
                         {
                             TempData["UpdateMessage"] = " Data has been Updated successully";
@@ -87,7 +88,7 @@ namespace ECommerceApp.Controllers
             public ActionResult Delete(int id)
             {
 
-                var row = itemContext.GetItems().Find(model => model.Id == id);
+                var row = itemContext.Get().Find(model => model.Id == id);
                 return View(row);
             }
 
@@ -98,7 +99,7 @@ namespace ECommerceApp.Controllers
                 {
 
 
-                    int check = itemContext.DeleteItem(id);
+                    int check = itemContext.Delete(id);
                     if (check >= 0)
                     {
                         TempData["DeleteMessage"] = " Data has been Delete successully";
@@ -118,7 +119,7 @@ namespace ECommerceApp.Controllers
             public ActionResult Details(int id)
             {
 
-                var row = itemContext.GetItems().Find(model => model.Id == id);
+                var row = itemContext.Get().Find(model => model.Id == id);
                 return View(row);
             }
         }
